@@ -9,13 +9,13 @@ function App() {
     <div>
       <div id="header">
         <div id="header-area">
-          <img src="images/icons/logo.png" />
+          <img src="/images/icons/logo.png" />
         </div>
       </div>
       <div id="body">
         <Switch>
           <Route exact={true} path="/">
-            <MainPageComponent />;
+            <MainPageComponent />
           </Route>
           <Route exact={true} path="/products/:id">
             <ProductPage />
