@@ -1,9 +1,22 @@
-import { Divider, Form, Input, InputNumber, Button } from "antd";
+import { Divider, Form, Input, InputNumber, Button, Upload } from "antd";
 import "./index.css";
+import { FokOutlined } from "@ant-design/icons";
+import { useState } from "react";
 
 function UploadPage() {
+  const [imageUrl, setImageUrl] = useState(null);
   const onSubmit = (values) => {
     console.log(values);
+  };
+  const onChangeImage = (info) => {
+    if (info.file.status === "uploading") {
+      return;
+    }
+    if (info.file.status === "done") {
+      const response = info.file.response;
+      const imageUrl = response.imageUrl;
+      setImageUrl(imageUrl);
+    }
   };
   return (
     <div id="upload-container">
@@ -12,10 +25,28 @@ function UploadPage() {
           name="upload"
           label={<div className="upload-label">상품 사진</div>}
         >
-          <div id="upload-img-placeholder">
-            <img src="/images/icons/camera.png" />
-            <span>이미지를 업로드해주세요.</span>
-          </div>
+          <Upload
+            name="image"
+            action="http://localhost:8080/image"
+            listType="picture"
+            showUploadList={false}
+            onChange={onChangeImage}
+          >
+            {
+              // 삼항 연산자문법) imageUrl이 있으면 처리하고 ): ( 만약 없다면 아래처럼 같은 걸 넣어주세요.
+              imageUrl ? (
+                <img
+                  id="upload-img"
+                  src={`http://localhost:8080/${imageUrl}`}
+                />
+              ) : (
+                <div id="upload-img-placeholder">
+                  <img src="/images/icons/camera.png" />
+                  <span>이미지를 업로드해주세요.</span>
+                </div>
+              )
+            }
+          </Upload>
         </Form.Item>
         <Divider />
         <Form.Item
