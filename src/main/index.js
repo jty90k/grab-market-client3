@@ -2,10 +2,11 @@ import React from "react";
 import "./index.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// dayjs 시간 관련 라이브러리
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { API_URL } from "../config/constants.js";
 
+// dayjs 시간 관련 라이브러리
 //dayjs 확장 데이터연결
 dayjs.extend(relativeTime);
 
@@ -13,10 +14,9 @@ function MainPage() {
   const [products, setProducts] = React.useState([]);
   React.useEffect(function () {
     axios
-      .get(
-        "http://localhost:8080/products"
-        //"https://341cf269-c712-4751-a587-2c7fd1b972ec.mock.pstmn.io/products"
-      )
+      //"https://341cf269-c712-4751-a587-2c7fd1b972ec.mock.pstmn.io/products"
+      //"http://localhost:8080/products"
+      .get(`${API_URL}/products`)
       .then(function (result) {
         const products = result.data.products;
         setProducts(products);

@@ -2,11 +2,24 @@ import { Divider, Form, Input, InputNumber, Button, Upload } from "antd";
 import "./index.css";
 import { FokOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { API_URL } from "../config/constants";
+import axios from "axios";
 
+//UploadPage 업로드 마지막 완료 후 누르틑 버튼
 function UploadPage() {
   const [imageUrl, setImageUrl] = useState(null);
   const onSubmit = (values) => {
-    console.log(values);
+    axios
+      .post(`${API_URL}/products`, {
+        name: values.name,
+        description: values.description,
+        seller: values.seller,
+        price: parseInt(values.price),
+        imageUrl: imageUrl,
+      })
+      .then((result) => {
+        console.log(result);
+      });
   };
   const onChangeImage = (info) => {
     if (info.file.status === "uploading") {
@@ -27,7 +40,7 @@ function UploadPage() {
         >
           <Upload
             name="image"
-            action="http://localhost:8080/image"
+            action={`${API_URL}/image`}
             listType="picture"
             showUploadList={false}
             onChange={onChangeImage}
@@ -35,10 +48,7 @@ function UploadPage() {
             {
               // 삼항 연산자문법) imageUrl이 있으면 처리하고 ): ( 만약 없다면 아래처럼 같은 걸 넣어주세요.
               imageUrl ? (
-                <img
-                  id="upload-img"
-                  src={`http://localhost:8080/${imageUrl}`}
-                />
+                <img id="upload-img" src={`${API_URL}/${imageUrl}`} />
               ) : (
                 <div id="upload-img-placeholder">
                   <img src="/images/icons/camera.png" />
