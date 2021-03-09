@@ -5,7 +5,6 @@ import {
   InputNumber,
   Button,
   Upload,
-  Message,
   message,
 } from "antd";
 import "./index.css";
